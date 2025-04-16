@@ -1,0 +1,20 @@
+from langchain.prompts import PromptTemplate
+from langchain.llms import OpenAI
+from langchain.chains import LLMChain
+
+# Create prompt templates
+prompt1 = PromptTemplate(input_variables=["input"], template="Translate the following English text to French: {input}")
+prompt2 = PromptTemplate(input_variables=["input"], template="Translate the following English text to Spanish: {input}")
+
+# Initialize LLM models
+llm1 = OpenAI(model="text-davinci-003")
+llm2 = OpenAI(model="text-davinci-003")
+
+# Chain the models
+chain1 = LLMChain(prompt=prompt1, llm=llm1)
+chain2 = LLMChain(prompt=prompt2, llm=llm2)
+
+# Run chains
+input_text = "I love programming"
+print(chain1.run(input_text))
+print(chain2.run(input_text))
