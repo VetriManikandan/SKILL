@@ -1,0 +1,42 @@
+import numpy as np
+import tensorflow as tf
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Sample data: Features for customer purchase prediction
+data = np.array([
+    [22, 30000, 0],
+    [25, 35000, 0],
+    [28, 40000, 0],
+    [30, 45000, 1],
+    [32, 50000, 1],
+    [35, 55000, 1],
+    [40, 60000, 1],
+    [45, 70000, 1]
+])
+
+X = data[:, :2]  # Features (Age, Income)
+y = data[:, 2]   # Target (Purchased or not)
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Scale the features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Build ANN model
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(10, input_dim=X_train.shape[1], activation='relu'),
+    tf.keras.layers.Dense(1, activation='sigmoid')
+])
+
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+# Train the model
+model.fit(X_train, y_train, epochs=50, batch_size=4, verbose=0)
+
+# Evaluate the model
+accuracy = model.evaluate(X_test, y_test, verbose=0)
+print(f"ANN Accuracy: {accuracy[1] * 100:.2f}%")
