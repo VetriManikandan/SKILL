@@ -1,0 +1,13 @@
+from transformers import pipeline
+
+# Load pre-trained summarization model
+summarizer = pipeline("summarization")
+
+# Example text
+text = """
+Artificial intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think and act like humans.
+The term is often used to describe machines that can perform tasks that typically require human intelligence, such as visual perception, speech recognition, decision-making, and language translation.
+"""
+
+summary = summarizer(text, max_length=50, min_length=25, do_sample=False)
+print("Summary:", summary[0]['summary_text'])
