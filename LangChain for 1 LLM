@@ -1,0 +1,16 @@
+from langchain.prompts import PromptTemplate
+from langchain.llms import OpenAI
+from langchain.chains import LLMChain
+
+# Create prompt template
+prompt = PromptTemplate(input_variables=["input"], template="Translate the following English text to French: {input}")
+
+# Initialize LLM model
+llm = OpenAI(model="text-davinci-003")
+
+# Chain the model
+chain = LLMChain(prompt=prompt, llm=llm)
+
+# Run chain
+input_text = "I love programming"
+print(chain.run(input_text))
